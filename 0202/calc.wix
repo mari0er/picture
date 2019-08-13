@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Product Language="1033" Manufacturer="@_xpn_" Version="0.0.1" Name="Example Product Name" UpgradeCode="12345678-1234-1234-1234-111111111111" Id="*">
+<Package Comments="Windows Installer Package" Compressed="yes" InstallerVersion="200"/>
+<Media Id="1"/>
+<Directory Name="SourceDir" Id="TARGETDIR">
+<Directory Id="ProgramFilesFolder">
+<Directory Name="Example" Id="INSTALLLOCATION">
+<Component Id="ApplicationFiles" Guid="12345678-1234-1234-1234-222222222222"> </Component>
+</Directory>
+</Directory>
+</Directory>
+<Feature Id="DefaultFeature" Level="1">
+<ComponentRef Id="ApplicationFiles"/>
+</Feature>
+<Property Id="cmdline"> cmd /c calc.exe</Property>
+<CustomAction Id="SystemShell" Impersonate="no" Return="ignore" ExeCommand="[cmdline]" Directory="TARGETDIR" Execute="deferred"/>
+<CustomAction Id="FailInstall" Return="check" Execute="deferred" Script="vbscript"> invalid vbs to fail install </CustomAction>
+<InstallExecuteSequence>
+<Custom After="InstallInitialize" Action="SystemShell"/>
+<Custom Action="FailInstall" Before="InstallFiles"/>
+</InstallExecuteSequence>
+</Product>
+</Wix>
